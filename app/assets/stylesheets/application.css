@@ -67,3 +67,14 @@
   background:#F68046;
   color:#fff;
 }
+.yellow{
+  background:#FFE681;
+}
+footer{
+  background:#333;
+  color:#fff!important;
+  bottom:0!important;
+  padding:2%!important;
+  font-weight:bold;
+  text-align:center;
+}
