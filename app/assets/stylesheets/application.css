@@ -1,0 +1,69 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file an;d they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require  bootstrap
+ *= require_tree .
+ *= require_self
+ */
+ html{
+   margin:0;
+ }
+.top_bar{
+  background:#FFD45B;
+  margin:0;
+  padding:2%;
+  color:#333 !important;
+  border:none;
+  border-radius:0;
+}
+.top_bar a{
+  color:#333 !important;
+}
+.navbar-nav a{
+  font-weight:bold;
+  padding:2%;
+  border-radius:8px;
+  margin-left:10px;
+  margin-top:10px;
+  transition:background 0.5s ease;
+}
+.navbar-nav a:hover{
+  background:#FFE681 !important;
+}
+.navbar-brand{
+  color:#333 !important;
+  font-family: 'Pacifico', cursive;
+  font-size:35px;
+}
+.navbar-text{
+  color:#333 !important;
+}
+.navbar-toggle{
+  background:#FFE681;
+}
+.home_div{
+  text-align:center;
+  padding:2%;
+}
+.home_div h1{
+  font-family: 'Montserrat', sans-serif;
+}
+.bigicon{
+  font-size:50px !important;
+}
+.gray{
+  background:#efefef;
+}
+.red{
+  background:#F68046;
+  color:#fff;
+}
