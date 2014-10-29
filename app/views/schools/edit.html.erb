@@ -1,6 +1,8 @@
-<h1>Editing school</h1>
+<div class="container divform">
+  <h1>Editing school</h1>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Show', @school %> |
-<%= link_to 'Back', schools_path %>
+  <%= link_to 'Show', @school, class:"btn btn-success  buttons"   %> |
+  <%= link_to 'Back', schools_path, class:"fa fa-arrow-circle-left btn btn-default"  %>
+</div>

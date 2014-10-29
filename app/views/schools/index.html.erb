@@ -1,6 +1,7 @@
+<div class="container divform">
 <h1>Listing schools</h1>
 
-<table>
+<table  class="table table-striped table-condensed">
   <thead>
     <tr>
       <th>Name</th>
@@ -10,15 +11,15 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody  class="table-hover">
     <% @schools.each do |school| %>
       <tr>
         <td><%= school.name %></td>
         <td><%= school.address %></td>
         <td><%= school.arrival %></td>
-        <td><%= link_to 'Show', school %></td>
-        <td><%= link_to 'Edit', edit_school_path(school) %></td>
-        <td><%= link_to 'Destroy', school, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to ' Show', school, class:"fa fa-eye btn btn-success  buttons" %></td>
+        <td><%= link_to ' Edit', edit_school_path(school), class:"fa fa-pencil-square-o btn btn-warning  buttons"  %></td>
+        <td><%= link_to ' Destroy', school, method: :delete, data: { confirm: 'Are you sure?' }, class:"fa fa-trash-o btn btn-danger  buttons"  %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +27,6 @@
 
 <br>
 
-<%= link_to 'New School', new_school_path %>
+<%= link_to 'New School', new_school_path, class:" fa fa-plus btn btn-success btn-lg buttons"  %>
+
+</div>

@@ -1,5 +1,9 @@
-<h1>New school</h1>
+<div class="container divform">
 
-<%= render 'form' %>
+  <h1>New school</h1>
 
-<%= link_to 'Back', schools_path %>
+    <div class="internalform">
+      <%= render 'form' %>
+      <%= link_to 'Back', schools_path, class:"fa fa-arrow-circle-left btn btn-default"  %>
+    </div>
+</div>
