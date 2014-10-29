@@ -17,6 +17,9 @@
  html{
    margin:0;
  }
+ body{
+   background:#efefef!important;
+ }
 .top_bar{
   background:#FFD45B;
   margin:0;

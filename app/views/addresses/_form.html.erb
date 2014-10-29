@@ -10,7 +10,10 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="field">
+    <%= f.label :address %><br>
+    <%= f.text_field :address, :placeholder => "Enter the address",class:"form-control" %>
+  </div>
   <div class="field">
     <%= f.label :latitude %><br>
     <%= f.text_field :latitude, :placeholder => "Latitude",class:"form-control" %>
