@@ -1,19 +1,23 @@
-<p id="notice"><%= notice %></p>
+<div class="container divform">
+  <div class="card">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @student.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @student.name %>
+  </p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @student.address %>
-</p>
+  <p>
+    <strong>Address:</strong>
+    <%= @student.address %>
+  </p>
 
-<p>
-  <strong>School:</strong>
-  <%= @student.school %>
-</p>
+  <p>
+    <strong>School:</strong>
+    <%= @student.school %>
+  </p>
+</div>
 
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
+  <%= link_to 'Edit', edit_student_path(@student), class:"btn btn-warning" %> |
+  <%= link_to ' Back', students_path, class:"fa fa-arrow-circle-left btn btn-default"  %>
+</div>
