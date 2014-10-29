@@ -1,6 +1,8 @@
-<h1>Editing address</h1>
+<div class="container divform">
+  <h1>Editing address</h1>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Show', @address %> |
-<%= link_to 'Back', addresses_path %>
+  <%= link_to 'Show', @address, class:"btn btn-success  buttons"  %> |
+  <%= link_to 'Back', addresses_path, class:"fa fa-arrow-circle-left btn btn-default" %>
+</div>

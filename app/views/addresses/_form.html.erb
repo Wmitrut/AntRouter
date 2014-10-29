@@ -13,13 +13,13 @@
 
   <div class="field">
     <%= f.label :latitude %><br>
-    <%= f.text_field :latitude %>
+    <%= f.text_field :latitude, :placeholder => "Latitude",class:"form-control" %>
   </div>
   <div class="field">
     <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
+    <%= f.text_field :longitude, :placeholder => "Longitude" ,class:"form-control" %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class:"btn btn-lg btn-primary"%>
   </div>
 <% end %>

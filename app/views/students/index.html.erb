@@ -17,9 +17,9 @@
         <td><%= student.name %></td>
         <td><%= student.address %></td>
         <td><%= student.school %></td>
-        <td><%= link_to 'Show', student, class:"btn btn-success  buttons" %></td>
-        <td><%= link_to 'Edit', edit_student_path(student), class:"btn btn-warning  buttons" %></td>
-        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger  buttons" %></td>
+        <td><%= link_to ' Show', student, class:"fa fa-eye btn btn-success  buttons" %></td>
+        <td><%= link_to ' Edit', edit_student_path(student), class:"fa fa-pencil-square-o btn btn-warning  buttons"  %></td>
+        <td><%= link_to ' Destroy', student, method: :delete, data: { confirm: 'Are you sure?' },class:"fa fa-trash-o btn btn-danger  buttons"%></td>
       </tr>
     <% end %>
   </tbody>

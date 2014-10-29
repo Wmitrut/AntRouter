@@ -1,14 +1,17 @@
-<p id="notice"><%= notice %></p>
+<div class="container divform">
+  <div class="card">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Latitude:</strong>
-  <%= @address.latitude %>
-</p>
+    <p>
+      <strong>Latitude:</strong>
+      <%= @address.latitude %>
+    </p>
 
-<p>
-  <strong>Longitude:</strong>
-  <%= @address.longitude %>
-</p>
-
-<%= link_to 'Edit', edit_address_path(@address) %> |
-<%= link_to 'Back', addresses_path %>
+    <p>
+      <strong>Longitude:</strong>
+      <%= @address.longitude %>
+    </p>
+  </div>
+    <%= link_to 'Edit', edit_address_path(@address), class:"btn btn-warning" %> |
+    <%= link_to 'Back', addresses_path, class:"fa fa-arrow-circle-left btn btn-default"  %>
+</div>
