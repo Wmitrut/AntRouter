@@ -1,0 +1,4 @@
+- Trocar campos float por decimal
+- Adicionar campo description em Address
+- Relacionar Address com Student e School
+- Arrumar testes dos models
