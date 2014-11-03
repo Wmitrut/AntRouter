@@ -1,0 +1,2 @@
+module StartpointsHelper
+end
