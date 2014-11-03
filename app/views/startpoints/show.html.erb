@@ -1,9 +1,13 @@
-<p id="notice"><%= notice %></p>
+<div class="container divform">
+  <div class="card">
+      <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @startpoint.address %>
-</p>
+      <p>
+        <strong>Address:</strong>
+        <%= @startpoint.address %>
+      </p>
+  </div>
 
-<%= link_to 'Edit', edit_startpoint_path(@startpoint) %> |
-<%= link_to 'Back', startpoints_path %>
+      <%= link_to 'Edit', edit_startpoint_path(@startpoint), class:"btn btn-warning" %> |
+      <%= link_to 'Back', startpoints_path, class:"fa fa-arrow-circle-left btn btn-default"  %>
+</div>
