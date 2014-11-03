@@ -6,49 +6,16 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
 
 </head>
 
-
 <body>
-  <nav class="navbar navbar-default top_bar" role="navigation">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <%= image_tag "pinant_small.png", class:"pull-left"%>
-        <a class="navbar-brand" href="/">AntRouter</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="/students">Students</a></li>
-          <li><a href="/schools">Schools</a></li>
-          <li><a href="#">How it does?</a></li>
-
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Give Us Feedback</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-<%= yield %>
-
-<footer>
-  HAHAHAH
-</footer>
-
+  <%= render "application/nav_bar" %>
+  <%= yield %>
+  <%= render "application/footer" %>
 </body>
 </html>
