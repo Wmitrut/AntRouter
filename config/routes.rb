@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :students
 
-  resources :schools
+  resources :schools do as_routes end
+  resources :addresses do as_routes end
 
   root to: 'welcome#index'
 
