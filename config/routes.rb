@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :startpoints
 
   resources :routes
 
   resources :students
 
-  resources :schools do as_routes end
-  resources :addresses do as_routes end
+  resources :schools do |as_routes| end
+  resources :addresses do |as_routes| end
 
   root to: 'welcome#index'
 

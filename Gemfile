@@ -11,7 +11,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'tod'
-gem 'active_scaffold'
+gem 'rails_admin', '~> 0.6.5'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
 
@@ -46,4 +46,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
