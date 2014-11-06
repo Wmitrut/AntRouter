@@ -22,12 +22,16 @@ class Ant
   end
 
   def distance(a, b)
-    x = @points[a][0] - @points[b][0]
-    y = @points[a][1] - @points[b][1]
+    return 1000000 if (a.nil? or b.nil?)
+    ponto_a = @points[a].address    
+    ponto_b = @points[b].address    
+    x = @points[b].latitude - @points[b].latitude
+    y = @points[a].longitude - @points[b].longitude
     return Math.sqrt((x*x) + (y*y))
   end
 
   def tourLength()
+    return 1000000 if (@n <= 0)
     length = distance(@tour[@n - 1], @tour[0])
     (0 ... @n - 1).each do |i|
       #puts "#{@tour[i]},#{@tour[i + 1]} = @graph[@tour[i]][@tour[i + 1]]"
@@ -82,23 +86,14 @@ class AntTsp
   # Read in graph from a file.
   # Allocates all memory.
   # Adds 1 to edge lengths to ensure no zero length edges.
-  def readGraph(path)
+  def readGraph
     i = 0
-    puts "lendo #{path}"
     @points = []
-    File.readlines(path).each do |line|
-      split = line.split(/[\s,;]+/)
-      j = 0
-
-      split.each do |s|
-        if (!s.empty?)
-          @points[i] ||= []
-          @points[i][j] = s.to_f + 1
-          j += 1
-        end
-      end
-
-      i += 1
+    School.all.each do |school|
+      @points << school
+    end
+    Student.all.each do |student|
+      @points << student
     end
 
     @n = i - 1
@@ -185,6 +180,8 @@ class AntTsp
   # Update trails based on ants tours
   def updateTrails()
     # evaporation
+    return if (@n <= 0)
+    puts "update: #{@n}"
     (0 ... @n).each do |i|
       (0 ... @n).each do |j|
         @trails[i][j] *= @evaporation
@@ -270,34 +267,3 @@ class AntTsp
   end
 
 end
-
-# Load graph file given on args[0].
-# (Full adjacency matrix. Columns separated by spaces, rows by newlines.)
-# Solve the TSP repeatedly for maxIterations
-# printing best tour so far each time.
-def main(args)
-  # Load in TSP data file.
-  if (args.size < 1)
-    raise ("Please specify a TSP data file.")
-    return
-  end
-  anttsp = AntTsp.new()
-  path = args[0]
-  if (File.exist?(path))
-    begin
-      anttsp.readGraph(path)
-    rescue
-      raise ("Error reading graph. #{args}\n#{$!}\n\n - #{$@.join("\n - ")}")
-      return
-    end
-  else
-    raise "arquivo nao existe"
-  end
-
-  # Repeatedly solve - will keep the best tour found.
-  #while (true)
-    anttsp.solve()
-  #end
-end
-
-#main(ARGV)
