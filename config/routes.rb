@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   root to: 'welcome#index'
 
+  get 'generate_new_route' => 'tsp#generate_new_route'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -159,7 +159,6 @@ class AntTsp
           return i
         end
       end
-
     end
     # calculate probabilities for each town (stored in probs)
     probTo(ant)
@@ -175,7 +174,12 @@ class AntTsp
       end
     end
     #puts "Not supposed to get here."
-    return @rand.rand(@n)
+    while (true)
+      i = @rand.rand(@n)
+      if (!ant.visited(i))
+        return i
+      end
+    end
   end
 
   # Update trails based on ants tours
@@ -206,6 +210,8 @@ class AntTsp
       end
       @currentIndex += 1
     end
+    # TODO: corrigir prioridade, pegar todos os alunos antes de passar pela ultima vez na escola
+    
   end
 
   # m ants with random start city
@@ -259,7 +265,8 @@ class AntTsp
     # Subtract n because we added one to edges on load
     puts ("Best tour length: #{(@bestTourLength - @n)}")
     puts("Best tour: #{tourToString(@bestTour)}")
-    return @bestTour.dup()
+    #return @bestTour.dup()
+    return "#{tourToString(@bestTour)} = #{@bestTourLength}"
   end
 
 end
