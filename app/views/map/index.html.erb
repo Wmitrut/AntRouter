@@ -2,15 +2,14 @@
   <div id="map_canvas"></div>
 </div>
 
+
+
 <script>
-      function initialize() {
-        var mapCanvas = document.getElementById('map_canvas');
-        var mapOptions = {
-          center: new google.maps.LatLng(-26.072188, -53.038692),
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var map = new google.maps.Map(mapCanvas, mapOptions)
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
+$(function() {
+  initialize("mapa");
+  addMarkerToAddress("Francisco Beltrão - PR, Rua União da Vitória, 407");
+  addMarkerToAddress("Itapejara d'Oeste - PR, Rua São Mateus, 403");
+  addMarkerToAddress("Francisco Beltrão - PR, Rua Florianópolis, 407");
+  addMarkerToAddress("Francisco Beltrão - PR, Rua Pernambuco, 407");
+});
 </script>
