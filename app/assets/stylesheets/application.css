@@ -1,25 +1,25 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file an;d they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- *= require  bootstrap
- *= require_tree .
- *= require_self
- */
- html{
-   margin:0;
- }
- body{
-   background:#efefef!important;
- }
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+* or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file an;d they'll appear at the bottom of the
+* compiled file so the styles you add here take precedence over styles defined in any styles
+* defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+* file per style scope.
+*
+*= require  bootstrap
+*= require_tree .
+*= require_self
+*/
+html{
+  margin:0;
+}
+body{
+  background:#efefef!important;
+}
 .top_bar{
   background:#FFD45B;
   margin:0;
@@ -107,4 +107,10 @@ footer{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+#map_canvas {
+  margin: 0 auto;
+  width: 1000px;
+  height: 500px;
+  background-color: #CCC;
 }
