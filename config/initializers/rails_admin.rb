@@ -37,8 +37,10 @@ RailsAdmin.config do |config|
   config.model Address do
     edit do
       field :latitude, :map do
-        default_zoom_level 15
-        map_width 400
+        default_zoom_level 16
+        map_width 600
+        default_latitude -26.072171
+        default_longitude -53.038692
       end
     end
   end

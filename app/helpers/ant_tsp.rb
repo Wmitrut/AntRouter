@@ -12,9 +12,35 @@ class Ant
     @visited = []
   end
 
-  def visitPoint(town, currentIndex)
-    @tour[currentIndex + 1] = town
-    @visited[town] = true
+  def visitPoint(point, currentIndex)
+    @tour[currentIndex + 1] = point
+    @visited[point] = true
+  end
+
+  # Posiciona o aluno antes da escola
+  def arrangeStudentsBeforeSchool
+    @tour.size.times do |i|
+      point = @points[@tour[i]]
+      if point.is_a? Student
+        student_school = point.school
+        new_position = -1
+        @tour.reverse.each_with_index do |s, j|
+          school = @points[s]
+          if school.is_a? School
+            if school.id == student_school.id
+              new_position = @tour.size - j - 1
+              break;
+            end
+          end
+        end
+        if new_position >= 0 and new_position < i
+          @tour.insert(new_position, @tour.delete_at(i))
+        end
+      end
+    end
+  end
+  def movePoint(from, to)
+    @tour[currentIndex + 1] = point
   end
 
   def visited(i)
@@ -22,16 +48,21 @@ class Ant
   end
 
   def distance(a, b)
-    return 1000000 if (a.nil? or b.nil?)
-    ponto_a = @points[a].address    
-    ponto_b = @points[b].address    
-    x = @points[b].latitude - @points[b].latitude
-    y = @points[a].longitude - @points[b].longitude
+    if (a.nil? or b.nil?)
+      puts "ERRO: Sem pontos para calcular dist"
+      return 1000000
+    end
+    ponto_a = @points[a].address
+    ponto_b = @points[b].address
+    x = ponto_a.latitude - ponto_b.latitude
+    y = ponto_a.longitude - ponto_b.longitude
     return Math.sqrt((x*x) + (y*y))
   end
 
   def tourLength()
-    return 1000000 if (@n <= 0)
+    if (@n <= 0)
+      return 1000000
+    end
     length = distance(@tour[@n - 1], @tour[0])
     (0 ... @n - 1).each do |i|
       #puts "#{@tour[i]},#{@tour[i + 1]} = @graph[@tour[i]][@tour[i + 1]]"
@@ -87,7 +118,6 @@ class AntTsp
   # Allocates all memory.
   # Adds 1 to edge lengths to ensure no zero length edges.
   def readGraph
-    i = 0
     @points = []
     School.all.each do |school|
       @points << school
@@ -96,7 +126,8 @@ class AntTsp
       @points << student
     end
 
-    @n = i - 1
+    @n = @points.size
+    puts "n=#{@n}"
     @m = (@n * @numAntFactor).to_i
 
     # all memory allocations done here
@@ -106,6 +137,7 @@ class AntTsp
     [0 ... @m].each do |j|
       @ants[j] = Ant.new(@points, @n)
     end
+    @points
   end
 
   def pow (a, b)
@@ -181,7 +213,7 @@ class AntTsp
   def updateTrails()
     # evaporation
     return if (@n <= 0)
-    puts "update: #{@n}"
+
     (0 ... @n).each do |i|
       (0 ... @n).each do |j|
         @trails[i][j] *= @evaporation
@@ -207,8 +239,11 @@ class AntTsp
       end
       @currentIndex += 1
     end
+    @ants.each do |a|
+      a.arrangeStudentsBeforeSchool
+    end
     # TODO: corrigir prioridade, pegar todos os alunos antes de passar pela ultima vez na escola
-    
+
   end
 
   # m ants with random start city
@@ -260,10 +295,14 @@ class AntTsp
       iteration += 1
     end
     # Subtract n because we added one to edges on load
-    puts ("Best tour length: #{(@bestTourLength - @n)}")
+    puts ("Best tour length: #{(@bestTourLength)}")
     puts("Best tour: #{tourToString(@bestTour)}")
     #return @bestTour.dup()
-    return "#{tourToString(@bestTour)} = #{@bestTourLength}"
+    route = ""
+    @bestTour.each do |i|
+      route += "'#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
+    end
+    return "#{tourToString(@bestTour)} = #{@bestTourLength} - <a href=\"https://www.google.com/maps/dir/#{route}\">abrir rota<a>".html_safe
   end
 
 end

@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20141103184029) do
   create_table "schools", force: true do |t|
     t.string   "name"
     t.integer  "address_id"
-    t.time     "arrival"
+    t.string   "arrival"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

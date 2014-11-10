@@ -3,15 +3,6 @@ class Address < ActiveRecord::Base
   has_one :student
   has_one :school
 
-  validates_presence_of :address
+#  validates_presence_of :address
 
-  rails_admin do
-    nested do
-      configure :student do
-        active true
-      end
-
-    end
-
-  end
 end
