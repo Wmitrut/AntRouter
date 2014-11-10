@@ -28,8 +28,19 @@ RailsAdmin.config do |config|
     delete
     show_in_app
 
+
     ## With an audit adapter, you can add:
     # history_index
     # history_show
   end
+
+  config.model Address do
+    edit do
+      field :latitude, :map do
+        default_zoom_level 15
+        map_width 400
+      end
+    end
+  end
+
 end

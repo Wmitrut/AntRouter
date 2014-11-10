@@ -10,6 +10,8 @@ class Address < ActiveRecord::Base
       configure :student do
         active true
       end
+
     end
+
   end
 end

@@ -12,7 +12,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'tod'
 gem 'rails_admin', '~> 0.6.5'
-
+gem 'slim-rails'
+gem "rails_admin_map_field", :github => "sudosu/rails_admin_map_field"
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
