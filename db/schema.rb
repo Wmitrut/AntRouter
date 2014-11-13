@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20141113132334) do
 
   create_table "turns", force: true do |t|
     t.integer  "school_id"
-    t.time     "arrival"
-    t.time     "departure"
+    t.string   "arrival"
+    t.string   "departure"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -14,8 +14,13 @@ class Ant
     @tour[currentIndex + 1] = point
     @visited[point] = true
   end
+#INÍCIO DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
 
-  # Posiciona o aluno ANTES da escola
+#Posiciona Escola por horário
+  def arrangeSchoolByTime
+
+  end
+# Posiciona o aluno ANTES da escola
   def arrangeStudentsBeforeSchool
     @tour.size.times do |i|
       point = @points[@tour[i]]
@@ -62,6 +67,8 @@ class Ant
       end
     end
   end
+  
+#FINAL DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
 
   def movePoint(from, to)
     @tour[currentIndex + 1] = point
