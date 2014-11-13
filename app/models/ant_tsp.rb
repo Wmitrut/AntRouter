@@ -223,7 +223,7 @@ class AntTsp
     #return @bestTour.dup()
     route = ""
     @bestTour.each do |i|
-      route += "'#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
+      route += "'#{@points[i].name.gsub(" ","")},#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
     end
     return "#{tourToString(@bestTour)} = #{@bestTourLength} - <a href=\"https://www.google.com/maps/dir/#{route}\">abrir rota<a>".html_safe
   end

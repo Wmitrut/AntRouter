@@ -5,5 +5,10 @@ class School < ActiveRecord::Base
 
   validates :name, :address, :arrival, presence: true
 
+  def turn_enum
+    ['Morning', 'Evening', 'Night']
+  end
+
+
 
 end

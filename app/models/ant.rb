@@ -15,7 +15,7 @@ class Ant
     @visited[point] = true
   end
 
-  # Posiciona o aluno antes da escola
+  # Posiciona o aluno ANTES da escola
   def arrangeStudentsBeforeSchool
     @tour.size.times do |i|
       point = @points[@tour[i]]
@@ -32,6 +32,31 @@ class Ant
           end
         end
         if new_position >= 0 and new_position < i
+          @tour.insert(new_position, @tour.delete_at(i))
+        end
+      end
+    end
+  end
+
+  # Posiciona o aluno DEPOIS da escola
+
+  # Posiciona o aluno DEPOIS da escola
+  def arrangeStudentsAfterSchool
+    @tour.size.times do |i|
+      point = @points[@tour[i]]
+      if point.is_a? Student
+        student_school = point.school
+        new_position = -1
+        @tour.each_with_index do |s, j|
+          school = @points[s]
+          if school.is_a? School
+            if school.id == student_school.id
+              new_position = j
+              break;
+            end
+          end
+        end
+        if new_position >= 0 and new_position > i
           @tour.insert(new_position, @tour.delete_at(i))
         end
       end
