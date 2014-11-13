@@ -1,9 +1,10 @@
 #INICIO DA CLASSE ANT, QUE DEFINE OS PARAMETROS DAS FORMIGAS
 class Ant
   attr_accessor :tour
-  def initialize(points, n)
+  def initialize(points, n, start_point)
     @points = points
     @n = n
+    @start_point = start_point
     @tour = []
     # Maintain visited list for towns, much faster
     # than checking if in tour so far.
@@ -17,9 +18,52 @@ class Ant
 #INÍCIO DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
 
 #Posiciona Escola por horário
-  def arrangeSchoolByTime
-
+  def arrangeSchoolByArrive
+    @tour.size.times do |i|
+      point = @points[@tour[i]]
+      if point.is_a? Turn
+        current_school = point
+        old_position = -1
+        @tour.each_with_index do |s, j|
+          school = @points[s]
+          break if (j >= i)
+          if school.is_a? Turn and school != current_school
+            if current_school.arrival > school.arrival
+              old_position = j
+              break
+            end
+          end
+        end
+        if old_position >= 0 and old_position < i
+          @tour.insert(i, @tour.delete_at(old_position))
+        end
+      end
+    end
   end
+
+  #Posiciona Escola por horário
+    def arrangeSchoolByDeparture
+      @tour.size.times do |i|
+        point = @points[@tour[i]]
+        if point.is_a? Turn
+          current_school = point
+          old_position = -1
+          @tour.each_with_index do |s, j|
+            school = @points[s]
+            break if (j >= i)
+            if school.is_a? Turn and school != current_school
+              if current_school.departure > school.departure
+                old_position = j
+                break
+              end
+            end
+          end
+          if old_position >= 0 and old_position < i
+            @tour.insert(i, @tour.delete_at(old_position))
+          end
+        end
+      end
+    end
 # Posiciona o aluno ANTES da escola
   def arrangeStudentsBeforeSchool
     @tour.size.times do |i|
@@ -29,8 +73,8 @@ class Ant
         new_position = -1
         @tour.reverse.each_with_index do |s, j|
           school = @points[s]
-          if school.is_a? School
-            if school.id == student_school.id
+          if school.is_a? Turn
+            if school.school.id == student_school.id
               new_position = @tour.size - j - 1
               break;
             end
@@ -54,8 +98,8 @@ class Ant
         new_position = -1
         @tour.each_with_index do |s, j|
           school = @points[s]
-          if school.is_a? School
-            if school.id == student_school.id
+          if school.is_a? Turn
+            if school.school.id == student_school.id
               new_position = j
               break;
             end
@@ -67,7 +111,7 @@ class Ant
       end
     end
   end
-  
+
 #FINAL DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
 
   def movePoint(from, to)
@@ -83,7 +127,11 @@ class Ant
       puts "ERRO: Sem pontos para calcular dist"
       return 1000000
     end
-    ponto_a = @points[a].address
+    if (a == :start_point)
+      ponto_a = @start_point.address
+    else
+      ponto_a = @points[a].address
+    end
     ponto_b = @points[b].address
     x = ponto_a.latitude - ponto_b.latitude
     y = ponto_a.longitude - ponto_b.longitude
@@ -94,7 +142,7 @@ class Ant
     if (@n <= 0)
       return 1000000
     end
-    length = distance(@tour[@n - 1], @tour[0])
+    length = distance(:start_point, @tour[0]) + distance(:start_point, @tour[@n - 1])
     (0 ... @n - 1).each do |i|
       #puts "#{@tour[i]},#{@tour[i + 1]} = @graph[@tour[i]][@tour[i + 1]]"
       length += distance(@tour[i], @tour[i + 1])

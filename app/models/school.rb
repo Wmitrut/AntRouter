@@ -10,7 +10,7 @@ class School < ActiveRecord::Base
     joins(:turns).where("turns.arrival > '12:00'").where("turns.departure < '18:00'")
   }
   scope :night, -> {
-    joins(:turns).where("turns.arrival > '18:00'").where("turns.departure < '23:00'")
+    joins(:turns).where("turns.arrival > '18:00'").where("turns.departure < '23:59'")
   }
 
   validates :name, :address, presence: true

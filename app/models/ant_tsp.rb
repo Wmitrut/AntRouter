@@ -40,12 +40,26 @@ class AntTsp
   # Read in graph from a file.
   # Allocates all memory.
   # Adds 1 to edge lengths to ensure no zero length edges.
-  def readGraph
+  def readGraph(turn, going)
+    @going = going
     @points = []
-    School.all.each do |school|
-      @points << school
+    @start_point = Startpoint.first
+    if (turn.to_sym == :morning)
+      turns = Turn.morning
+      students = Student.morning
+    elsif (turn.to_sym == :evening)
+      turns = Turn.evening
+      students = Student.evening
+    else
+      turns = Turn.night
+      students = Student.night
     end
-    Student.all.each do |student|
+    2.times do |i|
+      turns.each do |turn|
+        @points << turn
+      end
+    end
+    students.each do |student|
       @points << student
     end
 
@@ -58,7 +72,7 @@ class AntTsp
     @probs = []
     @ants = []
     [0 ... @m].each do |j|
-      @ants[j] = Ant.new(@points, @n)
+      @ants[j] = Ant.new(@points, @n, @start_point)
     end
     @points
   end
@@ -163,9 +177,14 @@ class AntTsp
       @currentIndex += 1
     end
     @ants.each do |a|
-      a.arrangeStudentsBeforeSchool
+      if @going
+        a.arrangeSchoolByArrive
+        a.arrangeStudentsBeforeSchool
+      else
+        a.arrangeSchoolByDeparture
+        a.arrangeStudentsAfterSchool
+      end
     end
-    # TODO: corrigir prioridade, pegar todos os alunos antes de passar pela ultima vez na escola
 
   end
 
@@ -221,11 +240,15 @@ class AntTsp
     puts ("Best tour length: #{(@bestTourLength)}")
     puts("Best tour: #{tourToString(@bestTour)}")
     #return @bestTour.dup()
-    route = ""
+    route = "'#{@start_point.address.latitude},#{@start_point.address.longitude}'/"
     @bestTour.each do |i|
-      route += "'#{@points[i].name.gsub(" ","")},#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
+      route += "'#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
     end
-    return "#{tourToString(@bestTour)} = #{@bestTourLength} - <a href=\"https://www.google.com/maps/dir/#{route}\">abrir rota<a>".html_safe
+    route += "'#{@start_point.address.latitude},#{@start_point.address.longitude}'"
+    routeString = @bestTour.collect do |i|
+      "#{@points[i].name} = #{@points[i].address.latitude},#{@points[i].address.longitude} #{"T:" + @points[i].arrival rescue nil}"
+    end.join("<br/>")
+    return "#{@bestTour}<br/>#{routeString}<br/> = #{@bestTourLength} - <a href=\"https://www.google.com/maps/dir/#{route}\">abrir rota<a>".html_safe
   end
 
 end
