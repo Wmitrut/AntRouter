@@ -38,6 +38,7 @@ RailsAdmin.config do |config|
     edit do
       field :latitude, :map do
         default_zoom_level 16
+        google_api_key AIzaSyD16em6TdD3AZE_6NGYtFzghM1b7YRGAQw
         map_width 600
         default_latitude -26.072171
         default_longitude -53.038692

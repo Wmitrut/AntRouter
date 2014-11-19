@@ -240,14 +240,28 @@ class AntTsp
     puts ("Best tour length: #{(@bestTourLength)}")
     puts("Best tour: #{tourToString(@bestTour)}")
     #return @bestTour.dup()
-    route = "'#{@start_point.address.latitude},#{@start_point.address.longitude}'/"
+    route = "" #"'#{@start_point.address.latitude},#{@start_point.address.longitude}'/"
+    last = nil
     @bestTour.each do |i|
-      route += "'#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
+      current = "'#{@points[i].address.latitude},#{@points[i].address.longitude}'/"
+      if (last != current)
+        route += current
+      end
+      last = current
     end
-    route += "'#{@start_point.address.latitude},#{@start_point.address.longitude}'"
+    #route += "'#{@start_point.address.latitude},#{@start_point.address.longitude}'"
+    last = nil
     routeString = @bestTour.collect do |i|
-      "#{@points[i].name} = #{@points[i].address.latitude},#{@points[i].address.longitude} #{"T:" + @points[i].arrival rescue nil}"
-    end.join("<br/>")
+      time =  "E:#{@points[i].arrival} S:#{@points[i].departure}" rescue nil
+      current = "#{@points[i].name} = #{@points[i].address.latitude},#{@points[i].address.longitude}#{time}"
+      if (last != current)
+        last = current
+        current
+      else
+        last = current
+        nil
+      end
+    end.compact.join("<br/>")
     return "#{@bestTour}<br/>#{routeString}<br/> = #{@bestTourLength} - <a href=\"https://www.google.com/maps/dir/#{route}\">abrir rota<a>".html_safe
   end
 

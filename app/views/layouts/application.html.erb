@@ -9,8 +9,110 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-<script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFahfmI22jYdNqINqIldK6bEVEMwKYpgI&v=3.exp&sensor=false"></script>
+
+
+
+   <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD16em6TdD3AZE_6NGYtFzghM1b7YRGAQw&sensor=FALSE">
+  </script>
+
+  <script>
+  function initialize() {
+    var mapCanvas = document.getElementById('map_canvas');
+    var mapOptions = {
+      center: new google.maps.LatLng(-26.072171, -53.038692),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(mapCanvas, mapOptions)
+
+      var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+      var start = '<%= asset_path "startpoint_pin.png" %>';
+      var school = '<%= asset_path "school_pin.png" %>';
+      var student = '<%= asset_path "student_pin.png" %>';
+
+
+
+      var startpointlatlong = new google.maps.LatLng(-26.072171, -53.038692);
+      var startpoint = new google.maps.Marker({
+          position: startpointlatlong,
+          map: map,
+          icon: start
+      });
+      infowindow = new google.maps.InfoWindow();
+      google.maps.event.addListener(startpoint, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent("Home");
+              infowindow.open(map, marker);
+            }
+      })(startpoint));
+
+
+      <% @schools.each do |school| %>
+        schoollatlong = new google.maps.LatLng(<%= school.address.latitude %>,<%= school.address.longitude %>);
+        schoolpoint = new google.maps.Marker({
+              position: schoollatlong,
+              map: map,
+              icon: school
+            });
+        infowindow = new google.maps.InfoWindow();
+				google.maps.event.addListener(schoolpoint, 'click', (function(marker, i) {
+					    return function() {
+    						infowindow.setContent("<%= school.name %>");
+    						infowindow.open(map, marker);
+					    }
+				})(schoolpoint));
+
+      <% end %>
+
+  <% @students.each do |student| %>
+      studentlatlong = new google.maps.LatLng(<%= student.address.latitude %>,<%= student.address.longitude %>);
+      studentpoint = new google.maps.Marker({
+          position: studentlatlong,
+          map: map,
+          icon: student
+      });
+      infowindow = new google.maps.InfoWindow();
+      google.maps.event.addListener(studentpoint, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent("<%= student.name %>");
+              infowindow.open(map, marker);
+            }
+      })(studentpoint));
+  <% end %>
+      var directionsService = new google.maps.DirectionsService();
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setMap(map);
+      var request = {
+        origin: "-26.0672945349498,-53.0347008729858",
+        waypoints: [{location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}, {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true},
+        {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}, {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}],
+        destination: "-26.067945349498,-53.0357008729858",
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+      directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        }
+      });
+
+      request = {
+        origin: "-26.067945349498,-53.0357008729858",
+        waypoints: [],
+        destination: "-26.06845349498,-53.0367008729858",
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+      directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+        }
+      });
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+  </script>
+
 
 </head>
 
