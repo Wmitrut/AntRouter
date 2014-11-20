@@ -17,6 +17,99 @@
   </script>
 
   <script>
+    var map;
+    var maxSize = 10;
+    var requestLimitWait = 1000;
+
+    var legsTmp = new Array();
+
+    var myDirectionsResult;
+
+    function nextChunk(onCallback, waypoints, okChunkNode) {
+          if (!okChunkNode) {
+            okChunkNode = 0;
+            legsTmp = new Array();
+          }
+          chunkNode = okChunkNode;
+          if (chunkNode < waypoints.length) {
+            var waypointsChunk = new Array();
+            for (var i = 0; i < maxSize && i + chunkNode < waypoints.length; ++i) {
+        waypointsChunk.push(waypoints[chunkNode+i]);
+            }
+            var origin;
+            var destination;
+            origin = waypointsChunk[0].location;
+            destination = waypointsChunk[waypointsChunk.length-1].location;
+            var waypointsChunk2 = new Array();
+            for (var i = 1; i < waypointsChunk.length - 1; i++) {
+        waypointsChunk2[i-1] = waypointsChunk[i];
+            }
+            chunkNode += maxSize;
+            if (chunkNode < waypoints.length-1) {
+        chunkNode--;
+            }
+
+            var directionsService = new google.maps.DirectionsService();
+            var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING,
+            waypoints: waypointsChunk2 };
+
+            directionsService.route(request,
+        function(directionsResult, directionsStatus) {
+          if (directionsStatus == google.maps.DirectionsStatus.OK) {
+                  myDirectionsResult = directionsResult;
+            requestLimitWait = 1000;
+            for (var i = 0; i < directionsResult.routes[0].legs.length; ++i) {
+              legsTmp.push(directionsResult.routes[0].legs[i]);
+            }
+            nextChunk(onCallback, waypoints, chunkNode);
+          } else if (directionsStatus == google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
+            requestLimitWait *= 2;
+            setTimeout(function(){ nextChunk(onCallback, waypoints, okChunkNode) }, requestLimitWait);
+           } else {
+            alert("Request failed!");
+          }
+        });
+          } else {
+            prepareSolution(onCallback, waypoints);
+          }
+        }
+
+        function prepareSolution(onCallback, waypoints) {
+          var wpIndices = waypoints;
+          var directionsResultLegs = new Array();
+          var directionsResultRoutes = new Array();
+          var directionsResultOverview = new Array();
+          var directionsResultBounds = new google.maps.LatLngBounds();
+          for (var i = 1; i < waypoints.length; ++i) {
+            directionsResultLegs.push(legsTmp[i]);
+            directionsResultBounds.extend(waypoints[i].location);
+            directionsResultOverview.push(waypoints[i].location);
+          }
+          directionsResultRoutes.push({
+            legs: directionsResultLegs,
+          bounds: directionsResultBounds,
+          copyrights: "Map data ©2015 Google :D",
+          overview_path: directionsResultOverview,
+          warnings: new Array(),
+          });
+          myDirectionsResult.routes = directionsResultRoutes;
+
+          if (typeof onCallback == 'function') {
+            onCallback(myDirectionsResult);
+          }
+        }
+
+        callback = function(directionsResult) {
+              var directionsDisplay = new google.maps.DirectionsRenderer();
+              directionsDisplay.setMap(map);
+              directionsDisplay.setDirections(directionsResult);
+          alert("ok");
+        };
+
+
   function initialize() {
     var mapCanvas = document.getElementById('map_canvas');
     var mapOptions = {
@@ -24,15 +117,11 @@
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    var map = new google.maps.Map(mapCanvas, mapOptions)
-
-      var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+      map = new google.maps.Map(mapCanvas, mapOptions)
 
       var start = '<%= asset_path "startpoint_pin.png" %>';
       var school = '<%= asset_path "school_pin.png" %>';
       var student = '<%= asset_path "student_pin.png" %>';
-
-
 
       var startpointlatlong = new google.maps.LatLng(-26.072171, -53.038692);
       var startpoint = new google.maps.Marker({
@@ -40,6 +129,7 @@
           map: map,
           icon: start
       });
+
       infowindow = new google.maps.InfoWindow();
       google.maps.event.addListener(startpoint, 'click', (function(marker, i) {
             return function() {
@@ -81,33 +171,13 @@
             }
       })(studentpoint));
   <% end %>
-      var directionsService = new google.maps.DirectionsService();
-      var directionsDisplay = new google.maps.DirectionsRenderer();
-      directionsDisplay.setMap(map);
-      var request = {
-        origin: "-26.0672945349498,-53.0347008729858",
-        waypoints: [{location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}, {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true},
-        {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}, {location: studentpoint.position, stopover: true}, {location: schoolpoint.position, stopover: true}],
-        destination: "-26.067945349498,-53.0357008729858",
-        travelMode: google.maps.TravelMode.DRIVING
-      };
-      directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-        }
-      });
 
-      request = {
-        origin: "-26.067945349498,-53.0357008729858",
-        waypoints: [],
-        destination: "-26.06845349498,-53.0367008729858",
-        travelMode: google.maps.TravelMode.DRIVING
-      };
-      directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-          directionsDisplay.setDirections(response);
-        }
-      });
+        /*var waypoints = new Array();
+        latlong = new google.maps.LatLng(-26.072171, -53.038692);
+        waypoints.push({location: latlong});
+        waypoints.push({location: latlong});
+
+        nextChunk(callback, waypoints);*/
   }
   google.maps.event.addDomListener(window, 'load', initialize);
 

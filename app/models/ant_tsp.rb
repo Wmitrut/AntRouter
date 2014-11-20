@@ -1,7 +1,8 @@
 #INICIO DA CLASSE ANT TSP QUE APLICA O ACO AO PROBLEMA DO TSP
 
 class AntTsp
-
+  attr_accessor :bestTour
+  attr_accessor :points
   def initialize
     # new trail deposit coefficient
     @Q = 500

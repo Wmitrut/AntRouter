@@ -28,6 +28,7 @@ group :development, :test do
   gem 'faker'
   gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'railroady'
 end
 
 # If Heroku
