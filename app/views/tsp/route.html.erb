@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AntRouter - Easy way to find a better route to you!</title>
+  <%= favicon_link_tag 'pinant_small.png'%>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+
+
+  <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD16em6TdD3AZE_6NGYtFzghM1b7YRGAQw&sensor=FALSE">
+  </script>
+
+  <script>
+    var map;
+    var maxSize = 10;
+    var requestLimitWait = 1000;
+
+    var legsTmp = new Array();
+    var waypoints = new Array();
+
+    var myDirectionsResult;
+
+    function nextChunk(onCallback, waypoints, okChunkNode) {
+          if (!okChunkNode) {
+            okChunkNode = 0;
+            legsTmp = new Array();
+          }
+          chunkNode = okChunkNode;
+          if (chunkNode < waypoints.length) {
+            var waypointsChunk = new Array();
+            for (var i = 0; i < maxSize && i + chunkNode < waypoints.length; ++i) {
+        waypointsChunk.push(waypoints[chunkNode+i]);
+            }
+            var origin;
+            var destination;
+            origin = waypointsChunk[0].location;
+            destination = waypointsChunk[waypointsChunk.length-1].location;
+            var waypointsChunk2 = new Array();
+            for (var i = 1; i < waypointsChunk.length - 1; i++) {
+        waypointsChunk2[i-1] = waypointsChunk[i];
+            }
+            chunkNode += maxSize;
+            if (chunkNode < waypoints.length-1) {
+        chunkNode--;
+            }
+
+            var directionsService = new google.maps.DirectionsService();
+            var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING,
+            waypoints: waypointsChunk2 };
+
+            directionsService.route(request,
+        function(directionsResult, directionsStatus) {
+          if (directionsStatus == google.maps.DirectionsStatus.OK) {
+                  myDirectionsResult = directionsResult;
+            requestLimitWait = 1000;
+            for (var i = 0; i < directionsResult.routes[0].legs.length; ++i) {
+              legsTmp.push(directionsResult.routes[0].legs[i]);
+            }
+            nextChunk(onCallback, waypoints, chunkNode);
+          } else if (directionsStatus == google.maps.DirectionsStatus.OVER_QUERY_LIMIT) {
+            requestLimitWait *= 2;
+            setTimeout(function(){ nextChunk(onCallback, waypoints, okChunkNode) }, requestLimitWait);
+           } else {
+            alert("Request failed!");
+          }
+        });
+          } else {
+            prepareSolution(onCallback, waypoints);
+          }
+        }
+
+        function prepareSolution(onCallback, waypoints) {
+          var wpIndices = waypoints;
+          var directionsResultLegs = new Array();
+          var directionsResultRoutes = new Array();
+          var directionsResultOverview = new Array();
+          var directionsResultBounds = new google.maps.LatLngBounds();
+          for (var i = 1; i < waypoints.length; ++i) {
+            directionsResultLegs.push(legsTmp[i]);
+            directionsResultBounds.extend(waypoints[i].location);
+            directionsResultOverview.push(waypoints[i].location);
+          }
+          directionsResultRoutes.push({
+            legs: directionsResultLegs,
+          bounds: directionsResultBounds,
+          copyrights: "Map data ©2015 Google :D",
+          overview_path: directionsResultOverview,
+          warnings: new Array(),
+          });
+          myDirectionsResult.routes = directionsResultRoutes;
+
+          if (typeof onCallback == 'function') {
+            onCallback(myDirectionsResult);
+          }
+        }
+
+        callback = function(directionsResult) {
+              var directionsDisplay = new google.maps.DirectionsRenderer();
+              directionsDisplay.setMap(map);
+              directionsDisplay.setDirections(directionsResult);
+          alert("ok");
+        };
+
+
+  function initialize() {
+    var mapCanvas = document.getElementById('map_canvas');
+    var mapOptions = {
+      center: new google.maps.LatLng(-26.072171, -53.038692),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+      map = new google.maps.Map(mapCanvas, mapOptions)
+
+
+      var start = '<%= asset_path "startpoint_pin.png" %>';
+      var school = '<%= asset_path "school_pin.png" %>';
+      var student = '<%= asset_path "student_pin.png" %>';
+
+      var startpointlatlong = new google.maps.LatLng(-26.072171, -53.038692);
+      var startpoint = new google.maps.Marker({
+          position: startpointlatlong,
+          map: map,
+          icon: start
+      });
+
+      infowindow = new google.maps.InfoWindow();
+      google.maps.event.addListener(startpoint, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent("Home");
+              infowindow.open(map, marker);
+            }
+      })(startpoint));
+
+      waypoints.push({location: startpointlatlong});
+
+      <%
+        last = nil
+        @bestTour.each do |i|
+          point = @points[i]
+          next if (point.is_a?(Turn) and last.is_a?(Turn) and last.id == point.id)
+          last = point
+         %>
+        latlong = new google.maps.LatLng(<%= point.address.latitude %>,<%= point.address.longitude %>);
+        /* <%= point.inspect %> */
+        <% if (point.is_a? Turn) %>
+          marker = new google.maps.Marker({
+                position: latlong,
+                map: map,
+                icon: school
+              });
+        <% else %>
+          marker = new google.maps.Marker({
+                position: latlong,
+                map: map,
+                icon: student
+              });
+        <% end #if %>
+
+        infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+              return function() {
+                infowindow.setContent("<%= point.name %>");
+                infowindow.open(map, marker);
+              }
+        })(marker));
+        waypoints.push({location: latlong});
+      <% end %>
+
+      waypoints.push({location: startpointlatlong});
+
+      nextChunk(callback, waypoints);
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+  </script>
+
+
+</head>
+
+<body>
+  <%= render "application/nav_bar" %>
+  <div class="container">
+    <div id="map_canvas"></div>
+  </div>
+  <div class="container highlight">
+    <table class="table table-striped table-hover table-bordered dataTable">
+      <thead>
+        <th>#</th>
+        <th>Travel Order</th>
+        <th>School</th>
+        <% if params[:going] == "going" %>
+        <th>Arrival</th>
+        <% else %>
+        <th>Departure</th>
+        <% end %>
+        <th>Distance</th>
+        <th>Time</th>
+      </thead>
+      <tbody>
+        <% x = 0
+          @bestTour.each_with_index do |i|
+          point = @points[i]
+          dist = 0
+          next if (point.is_a?(Turn) and last.is_a?(Turn) and last.id == point.id)
+          if (last)
+            dist = distance(point, last)
+          end
+          last = point
+          %>
+
+          <tr>
+            <td><%= (65 + (x = x + 1)).chr %></td>
+            <td><%= point.name %></td>
+            <td><%= point.is_a?(Student) ? point.school.name : "-" %></td>
+            <% if params[:going] == "going" %>
+            <td><%= point.arrival rescue "-"%></td>
+            <% else %>
+            <td><%= point.departure rescue "-"%></td>
+            <% end %>
+            <td><%= (dist * 100.0).to_i / 100.0 %></td>
+            <td><%= (point.is_a?(Turn) ? 5 : 1) + (dist / 35.0 * 60 * 100).to_i / 100.0 %> min</td>
+          </tr>
+
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= render "application/footer" %>
+</body>
+</html>

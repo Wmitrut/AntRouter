@@ -28,7 +28,7 @@ class Ant
           school = @points[s]
           break if (j >= i)
           if school.is_a? Turn and school != current_school
-            if current_school.arrival > school.arrival
+            if current_school.arrival < school.arrival
               old_position = j
               break
             end
@@ -52,7 +52,7 @@ class Ant
             school = @points[s]
             break if (j >= i)
             if school.is_a? Turn and school != current_school
-              if current_school.departure > school.departure
+              if current_school.departure < school.departure
                 old_position = j
                 break
               end
