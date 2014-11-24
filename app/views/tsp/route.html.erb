@@ -118,8 +118,7 @@
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-      map = new google.maps.Map(mapCanvas, mapOptions)
-
+      map = new google.maps.Map(mapCanvas, mapOptions);
 
       var start = '<%= asset_path "startpoint_pin.png" %>';
       var school = '<%= asset_path "school_pin.png" %>';
@@ -140,6 +139,7 @@
             }
       })(startpoint));
 
+      waypoints.push({location: startpointlatlong});
       waypoints.push({location: startpointlatlong});
 
       <%
@@ -175,7 +175,8 @@
         waypoints.push({location: latlong});
       <% end %>
 
-      waypoints.push({location: startpointlatlong});
+      waypoints.push({location: startpointlatlong, endpoint: true});
+      waypoints.push({location: startpointlatlong, endpoint: true});
 
       nextChunk(callback, waypoints);
   }
@@ -191,6 +192,15 @@
   <div class="container">
     <div id="map_canvas"></div>
   </div>
+
+  <div id="trail_tutorial" class="container"></div>
+
+  <script>
+    map = new google.maps.Map(document.getElementById("map_canvas"), options);
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById("trail_tutorial"));
+  </script>
+
   <div class="container highlight">
     <table class="table table-striped table-hover table-bordered dataTable">
       <thead>
@@ -234,6 +244,7 @@
       </tbody>
     </table>
   </div>
+
   <%= render "application/footer" %>
 </body>
 </html>
