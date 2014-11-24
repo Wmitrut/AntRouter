@@ -107,6 +107,7 @@
               var directionsDisplay = new google.maps.DirectionsRenderer();
               directionsDisplay.setMap(map);
               directionsDisplay.setDirections(directionsResult);
+              directionsDisplay.setPanel(document.getElementById("trail_tutorial"));
           alert("ok");
         };
 
@@ -179,6 +180,9 @@
       waypoints.push({location: startpointlatlong, endpoint: true});
 
       nextChunk(callback, waypoints);
+      var rendererOptions = {
+         draggable: true
+      };
   }
   google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -195,11 +199,9 @@
 
   <div id="trail_tutorial" class="container"></div>
 
-  <script>
-    map = new google.maps.Map(document.getElementById("map_canvas"), options);
-    directionsDisplay.setMap(map);
-    directionsDisplay.setPanel(document.getElementById("trail_tutorial"));
-  </script>
+
+
+
 
   <div class="container highlight">
     <table class="table table-striped table-hover table-bordered dataTable">

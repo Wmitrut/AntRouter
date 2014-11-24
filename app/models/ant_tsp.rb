@@ -5,7 +5,7 @@ class AntTsp
   attr_accessor :points
   def initialize
     # new trail deposit coefficient
-    @Q = 500
+    @Q = 9000
     # Algorithm parameters:
     # original amount of trail
     @c = 1.0
