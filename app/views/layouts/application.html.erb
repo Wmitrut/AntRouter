@@ -139,7 +139,8 @@
       })(startpoint));
 
 
-      <% @schools.each do |school| %>
+      <% @schools ||= []
+        @schools.each do |school| %>
         schoollatlong = new google.maps.LatLng(<%= school.address.latitude %>,<%= school.address.longitude %>);
         schoolpoint = new google.maps.Marker({
               position: schoollatlong,
@@ -156,7 +157,8 @@
 
       <% end %>
 
-  <% @students.each do |student| %>
+  <% @students ||= [] 
+  @students.each do |student| %>
       studentlatlong = new google.maps.LatLng(<%= student.address.latitude %>,<%= student.address.longitude %>);
       studentpoint = new google.maps.Marker({
           position: studentlatlong,
