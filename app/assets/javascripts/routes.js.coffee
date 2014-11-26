@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-+  $("#route-generate").on "click" , ->
-+    turn = $("#turn-select").val()
-+    direction = $("#direction-select").val()
-+    window.location.href = "/generate_new_route/" + turn + "/" + direction
+  $("#route-generate").on "click" , ->
+    turn = $("#turn-select").val()
+    direction = $("#direction-select").val()
+    window.location.href = "/generate_new_route/" + turn + "/" + direction

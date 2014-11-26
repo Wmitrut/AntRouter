@@ -13,7 +13,7 @@
 
 
   <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD16em6TdD3AZE_6NGYtFzghM1b7YRGAQw&sensor=FALSE">
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD16em6TdD3AZE_6NGYtFzghM1b7YRGAQw&sensor=FALSE&avoid=highways">
   </script>
 
   <script>
@@ -121,6 +121,7 @@
     }
       map = new google.maps.Map(mapCanvas, mapOptions);
 
+
       var start = '<%= asset_path "startpoint_pin.png" %>';
       var school = '<%= asset_path "school_pin.png" %>';
       var student = '<%= asset_path "student_pin.png" %>';
@@ -197,7 +198,7 @@
     <div id="map_canvas"></div>
   </div>
 
-  <div id="trail_tutorial" class="container"></div>
+  <div id="trail_tutorial" style="padding:2%; background:#fff; margin-bottom:20px;" class="container"></div>
 
 
 
@@ -246,8 +247,6 @@
       </tbody>
     </table>
   </div>
-
-
 
   <%= render "application/footer" %>
 </body>

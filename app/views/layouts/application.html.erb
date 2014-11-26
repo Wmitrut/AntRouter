@@ -118,6 +118,8 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
       map = new google.maps.Map(mapCanvas, mapOptions)
+      directionsDisplay.setMap(map);
+	    directionsDisplay.setPanel(document.getElementById("road-tip"));
 
       var start = '<%= asset_path "startpoint_pin.png" %>';
       var school = '<%= asset_path "school_pin.png" %>';
@@ -157,7 +159,7 @@
 
       <% end %>
 
-  <% @students ||= [] 
+  <% @students ||= []
   @students.each do |student| %>
       studentlatlong = new google.maps.LatLng(<%= student.address.latitude %>,<%= student.address.longitude %>);
       studentpoint = new google.maps.Marker({
