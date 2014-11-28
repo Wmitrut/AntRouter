@@ -87,7 +87,6 @@ class Ant
     end
   end
 
-  # Posiciona o aluno DEPOIS da escola
 
   # Posiciona o aluno DEPOIS da escola
   def arrangeStudentsAfterSchool
@@ -110,6 +109,14 @@ class Ant
         end
       end
     end
+  end
+
+  #Exclui pontos desnecessários
+
+  def excludeUnnecessaryPoints
+    @tour.size.times do |i|
+      point = @points[@tour[i]]
+
   end
 
 #FINAL DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
