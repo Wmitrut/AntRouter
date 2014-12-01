@@ -111,13 +111,12 @@ class Ant
     end
   end
 
-  #Exclui pontos desnecessários
-
-  def excludeUnnecessaryPoints
-    @tour.size.times do |i|
-      point = @points[@tour[i]]
-
-  end
+#Exclui pontos desnecessários
+#
+#  def excludeUnnecessaryPoints
+#    @tour.size.times do |i|
+#      point = @points[@tour[i]]
+#  end
 
 #FINAL DOS ORDENADORES DE ROTA E PRIORIZAÇÃO--------------------------------------------------------------------
 

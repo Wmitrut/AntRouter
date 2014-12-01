@@ -9,7 +9,7 @@
         </select>
       </div>
       <div class="form-group">
-        <select class="form-control" id="dir  ection-select">
+        <select class="form-control" id="direction-select">
           <option value="going">Going</option>
           <option value="returning">Returning</option>
         </select>
@@ -17,14 +17,3 @@
       <button type="submit" id="route-generate" class="btn btn-success btn-large">Generate New Route</button>
     </form>
 </div>
-
-<!--<script>
-  $(function() {
-    return $("#route-generate").on("click", function() {
-      var direction, turn;
-      turn = $("#turn-select").val();
-      direction = $("#direction-select").val();
-      return window.location.href = "/generate_new_route/" + turn + "/" + direction;
-    });
-  });
-</script>-->
