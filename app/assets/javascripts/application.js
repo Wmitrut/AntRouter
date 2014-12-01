@@ -15,3 +15,37 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+
+//$('route-generate').on('click',function(){
+
+  //$('#myModal').modal('show');
+//}
+  //$('#myModal').on('shown.bs.modal', function () {
+
+    //  var progress = setInterval(function() {
+      //var $bar = $('.bar');
+
+      //if ($bar.width()==500) {
+
+          // complete
+
+        //  clearInterval(progress);
+          //$('.progress').removeClass('active');
+          //$('#myModal').modal('hide');
+          //$bar.width(0);
+
+      //} else {
+
+          // perform processing logic here
+
+        //  $bar.width($bar.width()+15);
+      //}
+
+      //$bar.text($bar.width()/5 + "%");
+    //}, 800);
+
+
+//  });
+
+//});
