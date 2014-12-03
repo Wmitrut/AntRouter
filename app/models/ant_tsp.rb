@@ -22,7 +22,7 @@ class AntTsp
 
     # Reasonable number of iterations
     # - results typically settle down by 500
-    @maxIterations = 10000
+    @maxIterations = 15000
 
     @n = 0 # # towns
     @m = 0 # # ants

@@ -16,36 +16,35 @@
 //= require bootstrap
 //= require_tree .
 
+$(function() {
+  var timer = 0;
+  var $bar = $('.bar');
+  var progress = function() {
 
-//$('route-generate').on('click',function(){
+    if ($bar.width() >= 500) {
 
-  //$('#myModal').modal('show');
-//}
-  //$('#myModal').on('shown.bs.modal', function () {
+    
+       clearInterval(timer);
+        $('.progress').removeClass('active');
 
-    //  var progress = setInterval(function() {
-      //var $bar = $('.bar');
+        $bar.width(0);
+    } else {
 
-      //if ($bar.width()==500) {
+       $bar.width($bar.width()+4);
+    }
 
-          // complete
+    $bar.text(($bar.width() / 5) + "%");
+  };
+  var updateProgress = function() {
+    $bar.width(0);
+    timer = setInterval(progress, 1000);
+  };
 
-        //  clearInterval(progress);
-          //$('.progress').removeClass('active');
-          //$('#myModal').modal('hide');
-          //$bar.width(0);
-
-      //} else {
-
-          // perform processing logic here
-
-        //  $bar.width($bar.width()+15);
-      //}
-
-      //$bar.text($bar.width()/5 + "%");
-    //}, 800);
-
-
-//  });
-
-//});
+  $('#route-generate').on('click',function() {
+    $('#myModal').modal('show');
+          updateProgress();
+  });
+  $('#myModal').on('shown.bs.modal', function () {
+        updateProgress();
+  });
+});
