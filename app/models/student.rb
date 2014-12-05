@@ -1,6 +1,7 @@
 class Student < ActiveRecord::Base
   belongs_to :address
   belongs_to :school
+  has_many :item_routes, as: :routable
   accepts_nested_attributes_for :address, :allow_destroy => true
   validates_presence_of :address
 

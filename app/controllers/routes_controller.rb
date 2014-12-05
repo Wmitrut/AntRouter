@@ -10,6 +10,10 @@ class RoutesController < ApplicationController
   # GET /routes/1
   # GET /routes/1.json
   def show
+    route = Route.find params[:id]
+    @points = route.item_routes
+    @bestTour = 0...@points.size
+    render template: "/tsp/route", layout: false
   end
 
   # GET /routes/new
@@ -25,7 +29,7 @@ class RoutesController < ApplicationController
   # POST /routes.json
   def create
     @route = Route.new(route_params)
-    @route.arrival = 
+    @route.arrival =
 
     respond_to do |format|
       if @route.save

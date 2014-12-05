@@ -1,6 +1,7 @@
 class School < ActiveRecord::Base
   belongs_to :address
   has_many :turns
+  has_many :item_routes, as: :routable
   accepts_nested_attributes_for :address, :allow_destroy => true
 
   scope :morning, -> {

@@ -220,6 +220,8 @@
       </thead>
       <tbody>
         <% x = 0
+           total = 0
+           timetotal = 0
           @bestTour.each_with_index do |i|
           point = @points[i]
           dist = 0
@@ -238,14 +240,27 @@
             <td><%= point.arrival rescue "-"%></td>
             <% else %>
             <td><%= point.departure rescue "-"%></td>
-            <% end %>
+            <% end
+            total += dist
+            %>
             <td><%= (dist * 100.0).to_i / 100.0 %></td>
-            <td><%= (point.is_a?(Turn) ? 5 : 1) + (dist / 35.0 * 60 * 100).to_i / 100.0 %> min</td>
+            <td><%= time=((point.is_a?(Turn) ? 5 : 1) + (dist / 35.0 * 60 * 100).to_i / 100.0) %> min</td>
+            <% timetotal += time %>
           </tr>
 
         <% end %>
+              <tfoot>
+
+                <tr>
+                  <td colspan="4" >Total:</td>
+                  <td> <%= total %>km </td>
+                  <td> <%= timetotal %>min </td>
+                <tr>
+              </tfoot>
       </tbody>
     </table>
+
+
   </div>
 
   <%= render "application/footer" %>

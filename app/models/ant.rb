@@ -110,7 +110,35 @@ class Ant
       end
     end
   end
-
+=begin
+def arrangeSchoolBy
+  @students_per_school = {}
+  @tour.size.times do |i|
+    point = @points[@tour[i]]
+    if point.is_a? Student
+      @students_per_school[point.school] ||= 0
+      @students_per_school[point.school] += 1
+    else
+      current_school = point
+      old_position = -1
+      @tour.each_with_index do |s, j|
+        school = @points[s]
+        break if (j >= i)
+        if school.is_a? Turn and school != current_school
+          if @students_per_school[point.school] == 0
+            old_position = j
+            break
+          end
+        end
+      end
+      if old_position >= 0 and old_position < i
+        @tour.insert(i, @tour.delete_at(old_position))
+      end
+      @students_per_school[point.school] = 0
+    end
+  end
+end
+=end
 #Exclui pontos desnecessários
 #
 #  def excludeUnnecessaryPoints

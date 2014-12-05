@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141113132334) do
+ActiveRecord::Schema.define(version: 20141205192855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20141113132334) do
     t.string   "address"
     t.string   "description"
   end
+
+  create_table "item_routes", force: true do |t|
+    t.integer "route_id"
+    t.integer "order"
+    t.integer "routable_id"
+    t.string  "routable_type"
+  end
+
+  add_index "item_routes", ["route_id"], name: "index_item_routes_on_route_id", using: :btree
 
   create_table "routes", force: true do |t|
     t.integer  "address_id"

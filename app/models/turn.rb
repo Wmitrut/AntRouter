@@ -2,13 +2,16 @@ class Turn < ActiveRecord::Base
   belongs_to :school
 
   scope :morning, -> {
-    where("arrival > '06:00'").where("departure < '12:00'")
+    where("arrival > '06:00'").where("departure < '12:00'").
+      where("school_id in (select school_id from students where students.turn = 0)")
   }
   scope :evening, -> {
-    where("arrival > '12:00'").where("departure < '18:00'")
+    where("arrival > '12:00'").where("departure < '18:00'").
+      where("school_id in (select school_id from students where students.turn = 1)")
   }
   scope :night, -> {
-    where("arrival > '18:00'").where("departure < '23:59'")
+    where("arrival > '18:00'").where("departure < '23:59'").
+      where("school_id in (select school_id from students where students.turn = 2)")
   }
 
   def turn_enum
