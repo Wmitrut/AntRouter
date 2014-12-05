@@ -177,5 +177,3 @@ class Ant
     @visited = []
   end
 end
-
-#FINAL DA CLASSE ANT, QUE DEFINE OS PARAMETROS DAS FORMIGAS
