@@ -1,5 +1,5 @@
 class Turn < ActiveRecord::Base
-  belongs_to :school
+  belongs_to :school, inverse_of: :turns
 
   scope :morning, -> {
     where("arrival > '06:00'").where("departure < '12:00'").
@@ -28,7 +28,7 @@ class Turn < ActiveRecord::Base
     school.address
   end
   def name
-    school.name
+    "#{school.name} :: #{arrival} - #{departure}"
   end
 
 end

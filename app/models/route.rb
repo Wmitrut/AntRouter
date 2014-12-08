@@ -7,4 +7,8 @@ class Route < ActiveRecord::Base
     ['Morning', 'Evening', 'Night']
   end
 
+  def name
+    "#{id}"
+  end
+
 end

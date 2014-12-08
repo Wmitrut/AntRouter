@@ -1,8 +1,9 @@
 class School < ActiveRecord::Base
   belongs_to :address
-  has_many :turns
+  has_many :turns, inverse_of: :school
   has_many :item_routes, as: :routable
   accepts_nested_attributes_for :address, :allow_destroy => true
+  accepts_nested_attributes_for :turns, :allow_destroy => true
 
   scope :morning, -> {
     joins(:turns).where("turns.arrival > '06:00'").where("turns.departure < '12:00'").
@@ -26,5 +27,17 @@ class School < ActiveRecord::Base
   end
 
 
+  rails_admin do
+    edit do
+      field :name
+      field :address
+      field :turns
+      field :item_routes do
+        visible do
+           false
+        end
+      end
+    end
+  end
 
 end
